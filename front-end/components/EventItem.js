@@ -7,7 +7,13 @@ const EventItem = ({ evt }) => {
     <div className={styles.event}>
       <div className={styles.img}>
         <Image
-          src={evt.image ? evt.image : "/images/event-default.img"}
+          src={
+            evt?.attributes?.image
+              ? "http://localhost:1337" +
+                evt?.attributes?.image?.data?.attributes?.formats?.thumbnail
+                  ?.url
+              : "/public/images/event-default.png"
+          }
           width={170}
           height={100}
         />
@@ -15,13 +21,14 @@ const EventItem = ({ evt }) => {
 
       <div className={styles.info}>
         <span>
-          {evt.date} at {evt.time}
+          {new Date(evt?.attributes?.date).toLocaleDateString("en-US")} at{" "}
+          {evt?.attributes?.time}
         </span>
-        <h3>{evt.name}</h3>
+        <h3>{evt?.attributes?.name}</h3>
       </div>
 
       <div className={styles.link}>
-        <Link href={`/events/${evt.slug}`}>
+        <Link href={`/events/${evt?.attributes?.slug}`}>
           <a href="" className="btn">
             Details
           </a>
